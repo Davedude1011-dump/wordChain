@@ -91,6 +91,14 @@ document.body.addEventListener("keydown", (e) => {
 
 window.onload = function() {
     db.ref("wordList").set([""])
+    let circles = document.getElementsByClassName('bg-circles');
+
+    for(let i = 0; i < circles.length; i++) {
+      let top = Math.floor(Math.random() * (100 - 40)) + 'vh';
+      let left = Math.floor(Math.random() * (100 - 40)) + 'vw';
+      circles[i].style.setProperty('--top', top);
+      circles[i].style.setProperty('--left', left);
+    }
 }
 
 const darkModeBtn = document.querySelector("#dark-mode-btn");

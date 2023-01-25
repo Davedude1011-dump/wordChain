@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+body {
+  overflow: hidden;
+}
+
 .container {
   width: 80%;
   margin: 0 auto;
@@ -79,4 +83,84 @@ body.dark-mode .word-input {
 #dark-mode-btn:hover {
   background-color: #333;
   color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .word-container {
+    font-size: 24px;
+  }
+
+  .word-input {
+    font-size: 18px;
+  }
+
+  #dark-mode-btn {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  h1 {
+    font-size: 18px;
+  }
+
+  .word-container {
+    font-size: 18px;
+  }
+
+  .word-input {
+    font-size: 14px;
+  }
+
+  #dark-mode-btn {
+    font-size: 14px;
+  }
+}
+
+.bg-circles::before,
+.bg-circles::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 40vw;
+  height: 40vw;
+  animation: float 4s ease-in-out infinite alternate;
+}
+
+.bg-circles::before {
+  top: var(--top);
+  left: var(--left);
+  background-color: #f8f8f8;
+  z-index: -1;
+  border: none;
+}
+
+.bg-circles::after {
+  top: var(--top);
+  left: var(--left);
+  background-color: #f8f8f8;
+  z-index: -1;
+  border: none;
+}
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+body.dark-mode .bg-circles::after {
+  background-color: #2a2a2a;
+}
+body.dark-mode .bg-circles::before {
+  background-color: #2a2a2a;
 }
