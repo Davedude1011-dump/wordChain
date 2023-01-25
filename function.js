@@ -18,27 +18,43 @@ wordListFront = []
 var inputText = document.querySelector(".word-input")
 var sendButton = document.querySelector(".send-button")
 
+let wordListTXT = [];
+
+// fetch the wordlist.txt file
+fetch('wordlist.txt')
+  .then(response => response.text())
+  .then(data => {
+    // split the data by newline characters
+    wordListTXT = data.split('\n');
+});
+
 sendButton.addEventListener("click", sendWord)
 function sendWord() {
     var wordToSend = inputText.value
-    if (!wordListFront.includes(wordToSend)) {
-        if (wordToSend[0] == wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1)) {
-            wordListFront.push(wordToSend)
-            db.ref("wordList").set(wordListFront)
-            inputText.value = ""
-        }
-        else if (wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1) == "") {
-            wordListFront.push(wordToSend)
-            db.ref("wordList").set(wordListFront)
-            inputText.value = ""
+    if (wordListTXT.includes(wordToSend)) {
+        if (!wordListFront.includes(wordToSend)) {
+            if (wordToSend[0].toLowerCase() == (wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1)).toLowerCase()) {
+                wordListFront.push(wordToSend)
+                db.ref("wordList").set(wordListFront)
+                inputText.value = ""
+            }
+            else if (wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1) == "") {
+                wordListFront.push(wordToSend)
+                db.ref("wordList").set(wordListFront)
+                inputText.value = ""
+            }
+            else {
+                alert('word must begin with the last letter of the previous word, in this case " ' + wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1) + ' "')
+                inputText.value = ""
+            }
         }
         else {
-            alert('word must begin with the last letter of the previous word, in this case " ' + wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1) + ' "')
+            alert("the word " + wordToSend + " has already been said")
             inputText.value = ""
         }
     }
     else {
-        alert("the word " + wordToSend + " has already been said")
+        alert(wordToSend + " is not a word")
         inputText.value = ""
     }
     inputText.focus();
