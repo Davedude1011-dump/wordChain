@@ -26,13 +26,14 @@ fetch('wordlist.txt')
   .then(data => {
     // split the data by newline characters
     wordListTXT = data.split('\n');
+    wordListTXT = wordListTXT.map(word => word.toLowerCase())
 });
 
 sendButton.addEventListener("click", sendWord)
 function sendWord() {
     var wordToSend = inputText.value
-    if (wordListTXT.includes(wordToSend)) {
-        if (!wordListFront.includes(wordToSend)) {
+    if (wordListTXT.includes(wordToSend.toLowerCase())) {
+        if (!wordListFront.includes(wordToSend.toLowerCase())) {
             if (wordToSend[0].toLowerCase() == (wordListFront[wordListFront.length - 1].substr(wordListFront[wordListFront.length - 1].length - 1)).toLowerCase()) {
                 wordListFront.push(wordToSend)
                 db.ref("wordList").set(wordListFront)
@@ -61,7 +62,7 @@ function sendWord() {
 }
 
 db.ref("wordList").on("value", function(dbWordList) {
-    wordListFront = dbWordList.val()
+    wordListFront = dbWordList.val().map(word => word.toLowerCase())
     setFrontEndWordList(wordListFront)
 })
 
